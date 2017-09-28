@@ -15,13 +15,14 @@ import { FooterComponent } from './footer/footer.component';
 import { PhoneDetailComponent } from './phone-detail/phone-detail.component';
 
 import { PhoneApiService } from './services/phone-api.service';
+import { SessionService } from './services/session.service';
 
 export const routes: Routes = [
   {
     path: '', component: LayoutComponent,
       children: [
-        { path: 'phones', component: PhoneContainerComponent },
-        { path: 'phones/:id', component: PhoneDetailComponent },
+        { path: 'phones', component: PhoneContainerComponent, canActivate: [SessionService] },
+        { path: 'phones/:id', component: PhoneDetailComponent, canActivate: [SessionService] },
       ] },
   { path: 'home', component: HomeComponent },    
   { path: 'login', component: LoginComponent },
@@ -46,7 +47,7 @@ export const routes: Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [PhoneApiService],
+  providers: [PhoneApiService, SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
